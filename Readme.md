@@ -88,8 +88,9 @@ Initialize `pjax.js` when the DOM is ready. You can also define hooks to run cus
 ```javascript
 $(document).ready(function() {
   // Hook executed when a PJAX link is clicked
-  pjax.onLinkClick = function(target) {
+  pjax.onLinkClick = function(target, href) {
     // e.g., Show a custom loader or update UI
+    console.log("clicked: " + url);
     $(target).addClass('active').siblings().removeClass('active');
   };
 

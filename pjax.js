@@ -12,7 +12,7 @@ const pjax = {
   cacheStorage: {},
   maxCacheKeys: 100, // Maximum number of pages to cache to prevent memory leaks
   onPageLoaded: function (url) { },
-  onLinkClick: function (target) { },
+  onLinkClick: function (target, href) { },
 
   /**
    * Encode a key to Base64 format safely (supports Unicode).
@@ -97,7 +97,7 @@ const pjax = {
     const cachedPage = this.getCache(url);
 
     if (cachedPage) {
-      this.updateContent(cachedPage,url);
+      this.updateContent(cachedPage, url);
       if (scroll) $(window).scrollTop(0); // Fixed scroll logic
       if (cache) return false;
     } else {
@@ -122,7 +122,7 @@ const pjax = {
           }
 
           this.setCache(url, response);
-          this.updateContent(response,url);
+          this.updateContent(response, url);
 
           // Scroll if not already handled by cache hit
           if (scroll && !cachedPage) {
@@ -149,7 +149,7 @@ const pjax = {
    * @param {string} html - The HTML content to update
    * @param {string} url - The URL of the loaded page
    */
-  updateContent(html,url) {
+  updateContent(html, url) {
     this.$mainContainer.html(html).css("min-height", 0);
     $("title").text($("#main-content").data("title"));
     this.runDocumentReady();
@@ -184,7 +184,7 @@ const pjax = {
       const cache = target.hasAttribute("data-pjax-cache");
 
       this.loadPage(href, cache, scroll);
-      this.onLinkClick(target);
+      this.onLinkClick(target, href);
     });
   },
 
