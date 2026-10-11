@@ -108,7 +108,7 @@ const pjax = {
    */
   buildPartialUrl(url) {
     const base = this.stripHash(url);
-    const params = ["partial=1"];
+    const params = ["pjax=true"];
     const layout = this.$mainContainer.data("layout");
     if (layout !== undefined) params.push(`layout=${encodeURIComponent(layout)}`);
 

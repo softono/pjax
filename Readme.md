@@ -136,10 +136,10 @@ To re-run page-specific JavaScript after each navigation, see [Run JavaScript Co
 
 ### Server-Side Integration
 
-Ensure your server can handle partial requests by checking for the `partial` query parameter. For example, in PHP:
+Ensure your server can handle partial requests by checking for the `pjax` query parameter (sent as `pjax=true`). For example, in PHP:
 
 ```php
-if (isset($_GET['partial']) && isset($_GET['layout']) && $_GET['layout'] == 'main') {
+if (isset($_GET['pjax']) && isset($_GET['layout']) && $_GET['layout'] == 'main') {
     include 'partials/content.php';
 }
 ```
