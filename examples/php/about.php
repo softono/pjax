@@ -26,7 +26,7 @@
                                 <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
                                 <div>
                                     <h6 class="fw-bold mb-1">Fetches Content</h6>
-                                    <p class="text-muted mb-0 small">Makes an AJAX request to the server, appending a <code>?partial=1</code> parameter.</p>
+                                    <p class="text-muted mb-0 small">Makes an AJAX request to the server, appending a <code>?pjax=true</code> parameter.</p>
                                 </div>
                             </li>
                             <li class="list-group-item px-0 py-3 d-flex align-items-start border-0">

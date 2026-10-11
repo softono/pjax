@@ -67,8 +67,8 @@
 });</code></pre>
 
                         <h4 class="fw-bold mt-4">Server-Side Integration</h4>
-                        <p>Ensure your server can handle partial requests by checking for the <code>partial</code> query parameter. For example, in PHP:</p>
-                        <pre class="bg-light p-3 rounded mb-5"><code>if (isset($_GET['partial']) && isset($_GET['layout']) && $_GET['layout'] == 'main') {
+                        <p>Ensure your server can handle partial requests by checking for the <code>pjax</code> query parameter. For example, in PHP:</p>
+                        <pre class="bg-light p-3 rounded mb-5"><code>if (isset($_GET['pjax']) && isset($_GET['layout']) && $_GET['layout'] == 'main') {
     include 'partials/content.php';
 }</code></pre>
 

@@ -1,5 +1,5 @@
 <?php
-if (isset($_GET['partial']) && $_GET['partial']) {
+if (isset($_GET['pjax']) && $_GET['pjax']) {
     if (isset($_GET['layout']) && $_GET['layout'] == 'main') {
 ?>
         <div id="main-content" data-title="@yield('title') | {{config('setting.app_name')}}">
