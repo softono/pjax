@@ -139,7 +139,7 @@ To re-run page-specific JavaScript after each navigation, see [Run JavaScript Co
 Ensure your server can handle partial requests by checking for the `pjax` query parameter (sent as `pjax=true`). For example, in PHP:
 
 ```php
-if (isset($_GET['pjax']) && isset($_GET['layout']) && $_GET['layout'] == 'main') {
+if (isset($_GET['pjax']) && isset($_GET['pjax-layout']) && $_GET['pjax-layout'] == 'main') {
     include 'partials/content.php';
 }
 ```

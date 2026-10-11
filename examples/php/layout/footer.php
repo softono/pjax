@@ -1,4 +1,4 @@
-<?php if (!(isset($_GET['pjax']) && $_GET['pjax'] && isset($_GET['layout']) && $_GET['layout'] == 'main')) { ?>
+<?php if (!(isset($_GET['pjax']) && $_GET['pjax'] && isset($_GET['pjax-layout']) && $_GET['pjax-layout'] == 'main')) { ?>
     </main>
 
     <!-- Footer -->

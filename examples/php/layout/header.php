@@ -12,7 +12,7 @@ function getBaseUrl() {
     return $protocol . $host . $path . '/';
 }
 $baseUrl = getBaseUrl();
-if (!(isset($_GET['pjax']) && $_GET['pjax'] && isset($_GET['layout']) && $_GET['layout'] == 'main')) {
+if (!(isset($_GET['pjax']) && $_GET['pjax'] && isset($_GET['pjax-layout']) && $_GET['pjax-layout'] == 'main')) {
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">

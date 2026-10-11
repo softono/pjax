@@ -110,7 +110,7 @@ const pjax = {
     const base = this.stripHash(url);
     const params = ["pjax=true"];
     const layout = this.$mainContainer.data("layout");
-    if (layout !== undefined) params.push(`layout=${encodeURIComponent(layout)}`);
+    if (layout !== undefined) params.push(`pjax-layout=${encodeURIComponent(layout)}`);
 
     const separator = /[?&]$/.test(base) ? "" : base.includes("?") ? "&" : "?";
     return `${base}${separator}${params.join("&")}`;

@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['pjax']) && $_GET['pjax']) {
-    if (isset($_GET['layout']) && $_GET['layout'] == 'main') {
+    if (isset($_GET['pjax-layout']) && $_GET['pjax-layout'] == 'main') {
 ?>
         <div id="main-content" data-title="<?= $this->renderSection('title') ?>">
             <?= view('common/message_alert'); ?>
