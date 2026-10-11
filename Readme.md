@@ -5,8 +5,8 @@
 ## Features
 
 - **Partial Page Loading**: Load only the required content via AJAX.
-- **Session Storage Caching**: Cache pages for faster navigation.
-- **Dynamic Menu Updates**: Automatically update active menu items based on the current URL.
+- **In-Memory Caching**: Cache pages for faster navigation (cleared on full page reload).
+- **Race-Free Navigation**: A newer click cancels any request still in flight, so a slow response never overwrites the current page.
 - **Customizable**: Easily integrate with Laravel, CodeIgniter, or other PHP frameworks.
 - **Scroll Management**: Control scroll behavior during navigation.
 - **Error Handling**: Graceful handling of unauthorized or error responses.
@@ -83,26 +83,56 @@ Add the `pjax` class to your links to enable PJAX navigation:
 
 ### JavaScript Initialization
 
-Initialize `pjax.js` when the DOM is ready. You can also define hooks to run custom code during navigation:
+Load jQuery first, then `pjax`, and call `pjax.init()` once the DOM is ready. Set any options and hooks **before** calling `init()`:
 
 ```javascript
-$(document).ready(function() {
-  // Hook executed when a PJAX link is clicked
-  pjax.onLinkClick = function(target, href) {
-    // e.g., Show a custom loader or update UI
-    console.log("clicked: " + url);
-    $(target).addClass('active').siblings().removeClass('active');
+$(document).ready(function () {
+  // Options (all optional)
+  pjax.loaderClass = "my-loader"; // class of the "Loading..." element (default: "loading-text")
+  pjax.cacheEnabled = true;       // in-memory page cache (default: true)
+  pjax.maxCacheKeys = 50;         // max cached pages (default: 100)
+
+  // Hook: a PJAX link was clicked (the page is about to load)
+  pjax.onLinkClick = function (target, href) {
+    // target is the clicked <a> element, href is its absolute URL
+    $(target).closest("li").addClass("active").siblings().removeClass("active");
   };
 
-  // Hook executed after page content is updated
-  pjax.onPageLoaded = function(url) {
-    // e.g., Send pageview to analytics
-    console.log("Successfully loaded: " + url);
+  // Hook: new content is in the page (also runs for cached pages)
+  pjax.onPageLoaded = function (url) {
+    // e.g., send a pageview to analytics
+    console.log("Loaded: " + url);
   };
 
   pjax.init();
 });
 ```
+
+`pjax.init()` looks for `#main-container`. If it is missing, it logs `pjax: Main container not found` to the console and PJAX stays disabled, so links work as normal full-page navigations. Calling `init()` again is safe and does not bind duplicate handlers.
+
+#### Using it with a bundler (NPM)
+
+`import "@softono/pjax"` also exposes `pjax` as `window.pjax`, and `require("@softono/pjax")` returns the object. jQuery must still be available as the global `$`:
+
+```javascript
+import $ from "jquery";
+window.$ = window.jQuery = $;
+
+import pjax from "@softono/pjax";
+
+$(function () {
+  pjax.init();
+});
+```
+
+#### Hook reference
+
+| Hook | Arguments | When it runs |
+| --- | --- | --- |
+| `pjax.onLinkClick` | `target` (the `<a>` element), `href` (absolute URL) | Right after a PJAX link is clicked and loading starts. Not called for back/forward navigation. |
+| `pjax.onPageLoaded` | `url` (absolute URL) | After the container is updated and the `documentReady` callbacks have run. Runs once for a cached page and again if the server returns changed content. |
+
+To re-run page-specific JavaScript after each navigation, see [Run JavaScript Code After PJAX Updates](#run-javascript-code-after-pjax-updates).
 
 ### Server-Side Integration
 
@@ -117,7 +147,8 @@ if (isset($_GET['partial']) && isset($_GET['layout']) && $_GET['layout'] == 'mai
 ## Rules for PJAX SPA Functionality
 
 - Each link (`<a>` tag) where you want to apply PJAX SPA functionality must include the `pjax` class.
-- The `data-pjax-cache` attribute is optional and should only be used for static pages that need to be cached in the browser.
+- The `data-pjax-cache` attribute is optional and should only be used for static pages that need to be cached in the browser. `data-pjax-cache="false"` disables it.
+- Only same-origin `http(s)` links are intercepted. External links, links with a `#fragment`, `target="_blank"`, the `download` attribute, or a modifier key (Ctrl/Cmd/Shift/Alt) are left to the browser.
 
 ### Caching
 
@@ -168,23 +199,32 @@ This function will execute all registered `documentReady` functions after the HT
 
 #### Hooks
 
-- `pjax.onLinkClick(target)`
+- `pjax.onLinkClick(target, href)`
   - Function executed when a PJAX-enabled link is clicked.
 - `pjax.onPageLoaded(url)`
   - Function executed after PJAX successfully loads and updates the page content.
 
+#### Options
+
+- `pjax.loaderClass` (default `"loading-text"`)
+  - CSS class of the "Loading..." element shown while an uncached page loads.
+- `pjax.cacheEnabled` (default `true`)
+  - Turn the in-memory page cache on or off.
+- `pjax.maxCacheKeys` (default `100`)
+  - Maximum number of cached pages; the oldest is evicted first.
+
 #### Methods
 
 - `pjax.init()`
-  - Initialize PJAX functionality.
+  - Initialize PJAX functionality. Safe to call more than once.
 - `pjax.loadPage(url, cache, scroll)`
-  - Load page content via AJAX.
-- `pjax.updateContent(html)`
+  - Load page content via AJAX. Cancels any previous request still in flight.
+- `pjax.updateContent(html, url)`
   - Update the main container with new content.
-- `pjax.updateActiveMenuByUrl()`
-  - Update active menu items based on the current URL.
 - `pjax.routeLinks()`
   - Set up click handlers for PJAX-enabled links.
+- `pjax.setCache(key, value)` / `pjax.getCache(key)` / `pjax.removeCache(key)` / `pjax.clearCache()`
+  - Manage the page cache. `setCacheData` / `getCacheData` do the same for JSON values.
 
 ## Contributing
 
