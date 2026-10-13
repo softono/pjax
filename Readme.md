@@ -88,7 +88,7 @@ Load jQuery first, then `pjax`, and call `pjax.init()` once the DOM is ready. Se
 ```javascript
 $(document).ready(function () {
   // Options (all optional)
-  pjax.loaderClass = "my-loader"; // class of the "Loading..." element (default: "loading-text")
+  pjax.loaderClass = "my-loader"; // class of the "Loading..." element (default: "pjax-loader")
   pjax.cacheEnabled = true;       // in-memory page cache (default: true)
   pjax.maxCacheKeys = 50;         // max cached pages (default: 100)
 
@@ -206,7 +206,7 @@ This function will execute all registered `documentReady` functions after the HT
 
 #### Options
 
-- `pjax.loaderClass` (default `"loading-text"`)
+- `pjax.loaderClass` (default `"pjax-loader"`)
   - CSS class of the "Loading..." element shown while an uncached page loads.
 - `pjax.cacheEnabled` (default `true`)
   - Turn the in-memory page cache on or off.

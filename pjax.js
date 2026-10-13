@@ -8,7 +8,7 @@
 const pjax = {
   /** @type {jQuery} jQuery reference to main container */
   $mainContainer: null,
-  loaderClass: "loading-text",
+  loaderClass: "pjax-loader",
   cacheEnabled: true,
   cacheStorage: {},
   maxCacheKeys: 100, // Maximum number of pages to cache to prevent memory leaks

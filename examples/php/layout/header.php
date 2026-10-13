@@ -33,7 +33,7 @@ if (!(isset($_GET['pjax']) && $_GET['pjax'] && isset($_GET['pjax-layout']) && $_
     </script>
     <style>
         /* Minimal custom styling for loader */
-        .loading-text {
+        .pjax-loader {
             display: flex;
             justify-content: center;
             align-items: center;
