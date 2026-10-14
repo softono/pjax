@@ -17,7 +17,7 @@ const pjax = {
   /** @type {string} URL (without hash) of the page currently displayed */
   currentUrl: "",
   onPageLoaded: function (url) { },
-  onLinkClick: function (target, href) { },
+  onLinkClick: function (href, target) { },
   onPopState: function (url) { },
 
   /**
@@ -248,7 +248,7 @@ const pjax = {
           target.getAttribute("data-pjax-cache") !== "false";
 
         this.loadPage(href, cache, scroll);
-        this.onLinkClick(target, href);
+        this.onLinkClick(href, target);
       });
   },
 

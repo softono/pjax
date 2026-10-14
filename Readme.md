@@ -93,8 +93,8 @@ $(document).ready(function () {
   pjax.maxCacheKeys = 50;         // max cached pages (default: 100)
 
   // Hook: a PJAX link was clicked (the page is about to load)
-  pjax.onLinkClick = function (target, href) {
-    // target is the clicked <a> element, href is its absolute URL
+  pjax.onLinkClick = function (href, target) {
+    // href is its absolute URL, target is the clicked <a> element
     $(target).closest("li").addClass("active").siblings().removeClass("active");
   };
 
@@ -134,7 +134,7 @@ $(function () {
 
 | Hook | Arguments | When it runs |
 | --- | --- | --- |
-| `pjax.onLinkClick` | `target` (the `<a>` element), `href` (absolute URL) | Right after a PJAX link is clicked and loading starts. Not called for back/forward navigation. |
+| `pjax.onLinkClick` | `href` (absolute URL), `target` (the `<a>` element) | Right after a PJAX link is clicked and loading starts. Not called for back/forward navigation. |
 | `pjax.onPopState` | `url` (absolute URL) | Right after browser back/forward navigation changes the URL and page loading starts. |
 | `pjax.onPageLoaded` | `url` (absolute URL) | After the container is updated and the `documentReady` callbacks have run. Runs once for a cached page and again if the server returns changed content. |
 
@@ -205,7 +205,7 @@ This function will execute all registered `documentReady` functions after the HT
 
 #### Hooks
 
-- `pjax.onLinkClick(target, href)`
+- `pjax.onLinkClick(href, target)`
   - Function executed when a PJAX-enabled link is clicked.
 - `pjax.onPopState(url)`
   - Function executed when browser back/forward navigation triggers a page load.
