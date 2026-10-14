@@ -98,6 +98,11 @@ $(document).ready(function () {
     $(target).closest("li").addClass("active").siblings().removeClass("active");
   };
 
+  // Hook: browser back/forward navigation triggered a page load
+  pjax.onPopState = function (url) {
+    // url is the new absolute URL after history navigation
+  };
+
   // Hook: new content is in the page (also runs for cached pages)
   pjax.onPageLoaded = function (url) {
     // e.g., send a pageview to analytics
@@ -130,6 +135,7 @@ $(function () {
 | Hook | Arguments | When it runs |
 | --- | --- | --- |
 | `pjax.onLinkClick` | `target` (the `<a>` element), `href` (absolute URL) | Right after a PJAX link is clicked and loading starts. Not called for back/forward navigation. |
+| `pjax.onPopState` | `url` (absolute URL) | Right after browser back/forward navigation changes the URL and page loading starts. |
 | `pjax.onPageLoaded` | `url` (absolute URL) | After the container is updated and the `documentReady` callbacks have run. Runs once for a cached page and again if the server returns changed content. |
 
 To re-run page-specific JavaScript after each navigation, see [Run JavaScript Code After PJAX Updates](#run-javascript-code-after-pjax-updates).
@@ -201,6 +207,8 @@ This function will execute all registered `documentReady` functions after the HT
 
 - `pjax.onLinkClick(target, href)`
   - Function executed when a PJAX-enabled link is clicked.
+- `pjax.onPopState(url)`
+  - Function executed when browser back/forward navigation triggers a page load.
 - `pjax.onPageLoaded(url)`
   - Function executed after PJAX successfully loads and updates the page content.
 

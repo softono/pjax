@@ -18,6 +18,7 @@ const pjax = {
   currentUrl: "",
   onPageLoaded: function (url) { },
   onLinkClick: function (target, href) { },
+  onPopState: function (url) { },
 
   /**
    * Encode a key to Base64 format safely (supports Unicode).
@@ -290,6 +291,7 @@ const pjax = {
         // Back/forward between #anchors of the same page is plain browser scrolling
         if (this.stripHash(window.location.href) === this.currentUrl) return;
         this.loadPage(window.location.href);
+        this.onPopState(window.location.href);
       });
     this.runDocumentReady();
     return this;
